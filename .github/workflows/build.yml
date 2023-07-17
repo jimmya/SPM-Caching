@@ -1,5 +1,5 @@
 name: Build
-on: push
+on: [push, workflow_dispatch]
 
 jobs:
   build:
@@ -7,5 +7,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache packages
+        uses: actions/cache@v3
+        id: packages-cache
+        with:
+          path: packages_cache
+          key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-packages-
       - name: Build
         run: fastlane build
+        env:
+          HAS_PACKAGES_CACHE_HIT: ${{ steps.packages-cache.outputs.cache-hit == 'true' }}

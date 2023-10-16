@@ -11,7 +11,9 @@ jobs:
         uses: actions/cache@v3
         id: packages-cache
         with:
-          path: packages_cache
+          path: |
+            packages_cache/**
+            !packages_cache/repositories
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-packages-

@@ -12,8 +12,9 @@ jobs:
         id: packages-cache
         with:
           path: |
-            packages_cache/**
-            !packages_cache/repositories
+            packages_cache/artifacts
+            packages_cache/checkouts
+            packages_cache/workspace_state.json
           key: ${{ runner.os }}-packages-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-packages-
